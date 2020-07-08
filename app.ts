@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import redis from 'redis';
 
 const app = express();
@@ -51,6 +51,41 @@ app.post('/users', async (req, res) => {
     res.status(400);
     res.json({ message });
   }
+});
+
+
+app.get('/confirm-email', async (req, res) => {
+  const { token } = req.query;
+
+  if (!token) {
+    res.status(400);
+    return res.json({ message: 'Token requerido' });
+  }
+
+  const userValidationToken = await prisma.userValidationToken
+    .findOne({ 
+      where: { token: (token as string) },
+      select: { user: true, token: true }
+    });
+
+  if (!userValidationToken) {
+    res.status(400);
+    return res.json({ message: 'Token inválido' });
+  }
+
+  const { user } = userValidationToken;
+
+  prisma.user.update({
+    where: { id: user.id },
+    data: { email_confirmed: true }
+  });
+
+  await prisma.userValidationToken.delete({ 
+    where: { token: (token as string) }
+  });
+
+  res.status(200);
+  res.json({ message: `E-mail ${user.email} confirmado com sucesso` });
 });
 
 export default app;

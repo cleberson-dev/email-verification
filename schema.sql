@@ -12,6 +12,6 @@ CREATE TABLE "public"."User"(
 
 CREATE TABLE "public"."UserValidationToken"(
   user_id INT PRIMARY KEY,
-  token VARCHAR(255),
+  token VARCHAR(255) UNIQUE NOT NULL,
   FOREIGN KEY (user_id) REFERENCES "public"."User" (id)
 );
