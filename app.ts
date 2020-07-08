@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 app.get('/users', async (req, res) => {
   const users = await prisma.user.findMany({
-    select: { id: true, email: true, name: true }
+    select: { id: true, email: true, name: true, email_confirmed: true }
   });
 
   res.status(200);
@@ -36,7 +36,7 @@ app.post('/users', async (req, res) => {
   try {
     const newUser = await prisma.user.create({ 
       data: { email, password, name },
-      select: { id: true, email: true, password: true }
+      select: { id: true, email: true, password: true, email_confirmed: true }
     });
     redisClient.publish('USER_CREATED', email);
     res.status(200);
