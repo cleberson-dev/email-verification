@@ -1,8 +1,12 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import redis from 'redis';
 
 const app = express();
 const prisma = new PrismaClient();
+const redisClient = redis.createClient({
+  host: process.env.REDIS_HOST
+});
 
 app.use(express.json());
 
@@ -34,6 +38,7 @@ app.post('/users', async (req, res) => {
       data: { email, password, name },
       select: { id: true, email: true, password: true }
     });
+    redisClient.publish('USER_CREATED', email);
     res.status(200);
     res.json(newUser);
   } catch (e) {

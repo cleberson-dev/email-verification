@@ -1,10 +1,21 @@
-version: '3'
+version: "3"
 services:
+  web:
+    build: .
+    environment:
+      REDIS_HOST: 'redis'
+    depends_on:
+      - "database"
+    ports:
+      - "5000:5000"
+    command: ["./wait-for-it.sh", "database:5432", "--", "npm", "start"]
+  redis:
+    image: redis
   database:
-    image: postgres
+    build:
+      context: .
+      dockerfile: Dockerfile-db
     ports:
       - "5432:5432"
     env_file:
       - db.env
-  redis:
-    image: redis
