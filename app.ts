@@ -37,9 +37,14 @@ app.post('/users', async (req, res) => {
     res.status(200);
     res.json(newUser);
   } catch (e) {
+    let message = 'Dados inválidos';
+
+    if (e.code === 'P2002') {
+      message = 'E-mail já existente.'
+    }
+
     res.status(400);
-    console.log(e);
-    res.json({ message: e.message });
+    res.json({ message });
   }
 });
 
