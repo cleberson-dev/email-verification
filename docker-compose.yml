@@ -19,7 +19,7 @@ services:
   database:
     build:
       context: .
-      dockerfile: Dockerfile-db
+      dockerfile: Dockerfile.database
     ports:
       - "5432:5432"
     env_file:
