@@ -1,5 +1,5 @@
-import express, { Request, Response } from "express";
-import { PrismaClient, User } from "@prisma/client";
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 import redis from 'redis';
 
 const app = express();
