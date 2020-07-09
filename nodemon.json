@@ -1,0 +1,5 @@
+{
+  "execMap": {
+    "ts": "concurrently \"npm run dev:server\" \"npm run dev:worker\" &&"
+  }
+}

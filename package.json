@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "npm run prisma && concurrently \"npm run start:server\" \"npm run start:worker\"",
-    "start:server": "npx ts-node server.ts",
-    "start:worker": "npx ts-node workers/emailVerification.ts",
-    "prisma": "npx prisma generate"
+    "dev": "nodemon server.ts",
+    "dev:server": "ts-node server.ts",
+    "dev:worker": "ts-node workers/emailVerification.ts",
+    "gen:prisma": "npx prisma generate"
   },
   "devDependencies": {
     "@prisma/cli": "^2.2.0",
@@ -16,6 +16,7 @@
     "@types/node": "^14.0.18",
     "@types/redis": "^2.8.24",
     "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
   },

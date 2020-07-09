@@ -10,7 +10,10 @@ services:
       - "database"
     ports:
       - "5000:5000"
-    command: ["./wait-for-it.sh", "database:5432", "--", "npm", "start"]
+    command: bash -c " 
+      ./wait-for-it.sh database:5432 
+      && npm run gen:prisma  
+      && npm run dev"
   redis:
     image: redis
   database:
