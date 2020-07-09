@@ -75,7 +75,7 @@ app.get('/confirm-email', async (req, res) => {
 
   const { user } = userValidationToken;
 
-  prisma.user.update({
+  await prisma.user.update({
     where: { id: user.id },
     data: { email_confirmed: true }
   });
