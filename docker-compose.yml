@@ -4,6 +4,8 @@ services:
     build: .
     environment:
       REDIS_HOST: 'redis'
+    volumes:
+      - .:/usr/src/app
     depends_on:
       - "database"
     ports:
